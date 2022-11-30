@@ -3,11 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:padding="4dp">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/textViewTextOut"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:padding="4dp"
@@ -16,8 +17,8 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/guideline3"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="@tools:sample/lorem"
-        app:layout_constraintWidth="wrap_content_constrained"/>
+        app:layout_constraintWidth="wrap_content"
+        tools:text="@tools:sample/lorem" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

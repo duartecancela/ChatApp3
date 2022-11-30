@@ -9,9 +9,9 @@ class MessagesRepository(app: Application) {
     private val messagesDao = ChatDB(app).messageDao()
     private val messageCache = mutableListOf<Message>()
 
-    fun getMessages() : List<Message> {
+    fun getMessages(id: Long) : List<Message> {
         if(messageCache.isEmpty()) {
-            messageCache.addAll(messagesDao.getAll(1))
+            messageCache.addAll(messagesDao.getAll(id))
         }
 
         return messageCache;

@@ -9,22 +9,28 @@ import pt.ipbeja.chatapp.repositories.MessagesRepository
 class ChatViewModel(app: Application, stateHandle: SavedStateHandle)
     : AndroidViewModel(app) {
 
-    // TODO Add MessageRepository
+//    // TODO Add MessageRepository
+//    private val messagesRepo = MessagesRepository(app)
+//
+//    private val args = ChatFragmentArgs.fromSavedStateHandle(stateHandle)
+//    private val contactId = args.contactId
+//
+//
+//    fun getMessages() : List<Message> {
+//        TODO("obter as mensagens do repo")
+//        return messagesRepo.getMessages()
+//    }
+//
+//    // TODO adicionar o método para
+//    //  obter ContactWithMessages
+//
+//    // TODO adicionar o método para
+//    //  adicionar mensagem
+
     private val messagesRepo = MessagesRepository(app)
 
-    private val args = ChatFragmentArgs.fromSavedStateHandle(stateHandle)
-    private val contactId = args.contactId
+    fun getMessages(id: Long) = messagesRepo.getMessages(id)
 
-
-    fun getMessages() : List<Message> {
-        TODO("obter as mensagens do repo")
-        return messagesRepo.getMessages()
-    }
-
-    // TODO adicionar o método para
-    //  obter ContactWithMessages
-
-    // TODO adicionar o método para
-    //  adicionar mensagem
+    fun addMessage(message: Message) = messagesRepo.addMessage(message)
 
 }

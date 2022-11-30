@@ -18,11 +18,8 @@ import pt.ipbeja.chatapp.db.Message
 class ChatFragment : Fragment() {
 
     private val args: ChatFragmentArgs by navArgs()
-
     private lateinit var binding: FragmentChatBinding
-
-    private val viewModel by viewModels<MessagesViewModel>()
-
+    private val viewModel by viewModels<ChatViewModel>()
     private val adapter: ChatAdapter = ChatAdapter()
 
     // TODO pedir o ChatViewModel e
@@ -36,15 +33,20 @@ class ChatFragment : Fragment() {
         return this.binding.root
     }
 
+
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
 
         val contactId = args.contactId
+        val messages = viewModel.getMessages(contactId)
 
-        val contactWithMessages = ChatDB(requireContext())
-            .contactDao()
-            .getContactWithMessages(contactId)
+//        val contactWithMessages = ChatDB(requireContext())
+//            .contactDao()
+//            .getContactWithMessages(contactId)
 
-        adapter.setData(contactWithMessages.messages)
+
+        binding.sentMessageList.adapter = adapter
+        adapter.setData(messages)
 
         binding.send.setOnClickListener {
             // TODO criar a mensagem na bd e adapter
@@ -52,24 +54,20 @@ class ChatFragment : Fragment() {
             val messageText = binding.input.text.toString()
             val message = Message(contactId, messageText, Message.Direction.OUT)
             viewModel.addMessage(message)
-
         }
-
-
     }
-
-
 
     class MessageViewHolder(view: View) : ViewHolder(view) {
 
+        private lateinit var message: Message
         private val binding = SentMessageItemBinding.bind(view)
 
         fun bind(message: Message) {
             // todo colocar o texto da Message na TextView
+            this.message = message
+            binding.textViewTextOut.text = message.text
         }
-
     }
-
 
     class ChatAdapter : RecyclerView.Adapter<MessageViewHolder>() {
 
@@ -77,7 +75,9 @@ class ChatFragment : Fragment() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MessageViewHolder {
 
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.sent_message_item, parent, false)
+            val view = LayoutInflater
+                .from(parent.context)
+                .inflate(R.layout.sent_message_item, parent, false)
             return MessageViewHolder(view)
         }
 
