@@ -21,6 +21,8 @@ class ChatFragment : Fragment() {
 
     private lateinit var binding: FragmentChatBinding
 
+    private val viewModel by viewModels<MessagesViewModel>()
+
     private val adapter: ChatAdapter = ChatAdapter()
 
     // TODO pedir o ChatViewModel e
@@ -46,6 +48,11 @@ class ChatFragment : Fragment() {
 
         binding.send.setOnClickListener {
             // TODO criar a mensagem na bd e adapter
+
+            val messageText = binding.input.text.toString()
+            val message = Message(contactId, messageText, Message.Direction.OUT)
+            viewModel.addMessage(message)
+
         }
 
 

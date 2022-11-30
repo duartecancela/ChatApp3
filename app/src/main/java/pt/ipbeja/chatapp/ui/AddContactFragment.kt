@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import pt.ipbeja.chatapp.databinding.FragmentAddContactBinding
 import pt.ipbeja.chatapp.db.ChatDB
@@ -22,6 +23,7 @@ class AddContactFragment : Fragment() {
     }
 
     private lateinit var binding: FragmentAddContactBinding
+    private val viewModel by viewModels<ContactsViewModel>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,9 +41,11 @@ class AddContactFragment : Fragment() {
         binding.addContact.setOnClickListener {
             val contactName = binding.name.text.toString()
             val contact = Contact(contactName)
-            ChatDB(requireContext())
-                .contactDao()
-                .add(contact)
+            viewModel.addContact(contact)
+
+//            ChatDB(requireContext())
+//                .contactDao()
+//                .add(contact)
 
             Log.i(AddContactFragment::class.simpleName, "Contact created $contact")
 

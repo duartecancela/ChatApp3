@@ -11,7 +11,7 @@ class MessagesRepository(app: Application) {
 
     fun getMessages() : List<Message> {
         if(messageCache.isEmpty()) {
-            messageCache.addAll(messagesDao.getAll())
+            messageCache.addAll(messagesDao.getAll(1))
         }
 
         return messageCache;
