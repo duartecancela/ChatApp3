@@ -44,7 +44,6 @@ class ChatFragment : Fragment() {
 //            .contactDao()
 //            .getContactWithMessages(contactId)
 
-
         binding.sentMessageList.adapter = adapter
         adapter.setData(messages)
 
@@ -54,6 +53,10 @@ class ChatFragment : Fragment() {
             val messageText = binding.input.text.toString()
             val message = Message(contactId, messageText, Message.Direction.OUT)
             viewModel.addMessage(message)
+
+            binding.sentMessageList.adapter = adapter
+            adapter.setData(messages)
+
         }
     }
 

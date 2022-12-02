@@ -6,7 +6,7 @@ import androidx.lifecycle.SavedStateHandle
 import pt.ipbeja.chatapp.db.Message
 import pt.ipbeja.chatapp.repositories.MessagesRepository
 
-class ChatViewModel(app: Application, stateHandle: SavedStateHandle)
+class ChatViewModel(app: Application)
     : AndroidViewModel(app) {
 
 //    // TODO Add MessageRepository
