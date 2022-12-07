@@ -17,4 +17,7 @@ interface ContactDao : BaseDao<Contact> {
     fun getContactWithMessages(contactId: Long): ContactWithMessages
 
 
+    @Query("delete from contact")
+    fun deleteAll():Int
+
 }

@@ -1,22 +1,21 @@
 package pt.ipbeja.chatapp.ui
 
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.setFragmentResultListener
+import androidx.core.view.MenuProvider
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
+import pt.ipbeja.chatapp.R
 import pt.ipbeja.chatapp.databinding.ContactItemBinding
 import pt.ipbeja.chatapp.databinding.FragmentContactsBinding
 import pt.ipbeja.chatapp.db.ChatDB
 import pt.ipbeja.chatapp.db.Contact
 
 
-class ContactsFragment : Fragment() {
+class ContactsFragment : Fragment(), MenuProvider {
 
     private lateinit var binding: FragmentContactsBinding
     private val adapter = ContactsAdapter()
@@ -33,9 +32,10 @@ class ContactsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*val contacts = ChatDB(requireContext())
-            .contactDao()
-            .getAll()*/
+        requireActivity()
+            .addMenuProvider(this, viewLifecycleOwner)
+
+
         val contacts = viewModel.getContacts()
 
         adapter.setData(contacts)
@@ -86,7 +86,6 @@ class ContactsFragment : Fragment() {
             data.addAll(contacts)
         }
 
-
         fun add(contact: Contact) {
             data.add(contact)
             notifyItemInserted(data.lastIndex)
@@ -97,6 +96,13 @@ class ContactsFragment : Fragment() {
             notifyItemRemoved(position)
         }
 
+        fun removeAll() {
+            viewModel.deleteContacts()
+            val size = data.size
+            data.clear()
+            notifyItemRangeRemoved(0, size);
+
+        }
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
             val layoutInflater = LayoutInflater.from(parent.context)
             val binding = ContactItemBinding.inflate(layoutInflater, parent, false)
@@ -113,9 +119,22 @@ class ContactsFragment : Fragment() {
         fun setData(contacts: List<Contact>) {
             data.clear()
             data.addAll(contacts)
-
         }
+    }
 
+    override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+        menuInflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+        return when (menuItem.itemId) {
+            R.id.itemDeleteContact -> {
+                adapter.removeAll()
+                Snackbar.make(requireView(), "Contacts deleted", Snackbar.LENGTH_SHORT).show()
+                true
+            }
+            else -> false
+        }
     }
 
 

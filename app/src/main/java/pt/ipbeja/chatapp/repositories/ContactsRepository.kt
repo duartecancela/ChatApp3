@@ -23,4 +23,8 @@ class ContactsRepository(app: Application) {
         contactCache.add(copyWithId)
     }
 
+    fun deleteContacts(){
+        contactsDao.deleteAll()
+    }
+
 }

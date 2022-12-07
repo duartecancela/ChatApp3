@@ -12,5 +12,6 @@ class ContactsViewModel(app: Application) : AndroidViewModel(app) {
 
     fun getContacts() = contactsRepo.getContacts()
     fun addContact(contact: Contact) = contactsRepo.addContact(contact)
+    fun deleteContacts() = contactsRepo.deleteContacts()
 
 }
